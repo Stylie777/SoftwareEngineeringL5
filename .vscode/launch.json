@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Django Week3",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Week3/manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
             "name": "Python: Flask Week 2",
             "type": "python",
             "request": "launch",
