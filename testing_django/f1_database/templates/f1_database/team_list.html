@@ -1,0 +1,15 @@
+{% block content %}
+  <h1>team List</h1>
+  {% if team_list %}
+    <ul>
+      {% for team in team_list %}
+      <li>
+        <a href="{{ team.get_absolute_url }}">{{ team.name }}</a>
+        ({{team.date_formed}})
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no teams in the library.</p>
+  {% endif %}
+{% endblock %}
