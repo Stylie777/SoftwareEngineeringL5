@@ -12,3 +12,7 @@ class Tickets(models.Model):
     ticket_details = models.CharField(max_length=100)
     ticket_description = models.CharField(max_length=2000)
     assignee_user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+
+class UserPermissions(models.Model):
+    permissions_id = models.IntegerField(primary_key=True, mull=False)
+    persmission_name = models.CharField(max_length=50, null=False)
