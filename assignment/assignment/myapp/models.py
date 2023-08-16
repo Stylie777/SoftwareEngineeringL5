@@ -1,7 +1,7 @@
 from django.db import models
 
 class UserPermissions(models.Model):
-    permissions_id = models.IntegerField(primary_key=True, mull=False)
+    permissions_id = models.IntegerField(primary_key=True, null=False)
     persmission_name = models.CharField(max_length=50, null=False)
 
 class UserGroups(models.Model):
