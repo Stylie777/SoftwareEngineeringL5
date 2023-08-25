@@ -1,7 +1,6 @@
 from django.contrib import admin
-from myapp.models import UserGroups, UserPermissions, Users, Tickets
+from myapp.models import Status, TicketType, Ticket
 
-admin.site.register(Users)
-admin.site.register(UserGroups)
-admin.site.register(UserPermissions)
-admin.site.register(Tickets)
+admin.site.register(Status)
+admin.site.register(TicketType)
+admin.site.register(Ticket)
