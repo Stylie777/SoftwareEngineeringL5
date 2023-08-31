@@ -1,0 +1,22 @@
+{% extends "myapp/base.html" %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="fieldWrapper">
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger"> {{ field.label_tag }} {{ error }}</div>
+                    {% endfor %}
+                    {{ field.label_tag }} {{ field }}
+                    <br>
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

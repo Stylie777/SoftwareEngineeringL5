@@ -27,6 +27,9 @@ urlpatterns = [
     path("register/", views.RegisterPage, name="Register"),
     path("login/", views.LoginPage, name="Login"),
     path("logout/", views.LogoutPage, name="Logout"),
+    path("create_ticket/", views.CreateTicketPage, name="Create Ticket"),
+    path("create_status/", views.CreateStatusPage, name="Create Status"),
+    path("create_ticket_type/", views.CreateTicketTypePage, name="Create Ticket Type"),
 ]
 
 urlpatterns +=staticfiles_urlpatterns()

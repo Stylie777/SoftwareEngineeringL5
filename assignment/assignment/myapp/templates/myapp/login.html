@@ -8,7 +8,7 @@
     <div class="container py-5">
         <form method="POST">
             {% csrf_token %}
-            {{login_form}}
+            {{login_form.as_p}}
             <button class="btn btm-primary" type="submit">Login</button>
         </form>
         <p class="text-centre">Need an account? <a href="/register"> Create an account here!</a>.</p>

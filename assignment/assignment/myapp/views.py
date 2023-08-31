@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import NewUser
+from .forms import NewUser, AddTicket, AddStatus, AddTicketType
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+import re, datetime
 
 def HomePage(request):
     return render(request, "myapp/home.html")
@@ -32,7 +34,7 @@ def LoginPage(request):
 
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                messages.success(request, f"You are now logged in as {username}.")
                 return redirect("Home")
             else:
                 messages.error(request, "Invalid Username or Password. Please try again.")
@@ -43,3 +45,36 @@ def LogoutPage(request):
     logout(request)
     messages.info(request, "You have logged out.")
     return redirect("Home")
+
+@login_required(login_url="/login")
+def CreateTicketPage(request):
+    form = AddTicket(request.POST)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, message="Ticket logged")
+        return redirect("Home")
+
+    return render(request, 'myapp/add_ticket.html', context={"form":form})
+
+@login_required(login_url="/login")
+def CreateStatusPage(request):
+    form = AddStatus(request.POST)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Status Type Created")
+        return redirect("Home")
+    
+    return render(request, "myapp/add_status.html", context={"form":form})
+
+@login_required(login_url="/login")
+def CreateTicketTypePage(request):
+    form = AddTicketType(request.POST)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Ticket Type Created")
+        return redirect("Home")
+    
+    return render(request, "myapp/add_ticket_type.html", context={"form":form})
