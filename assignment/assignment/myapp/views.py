@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 import re, datetime
-from .models import Ticket, Status
+from .models import Ticket, Status, TicketType
 
 def HomePage(request):
     return render(request, "myapp/home.html")
@@ -100,3 +100,17 @@ def ViewStatus(request, status_name):
     status_name.replace("%20", " ")
     status = Status.objects.get(status_name=status_name)
     return render(request, "myapp/display_status.html", {"status": status})
+
+@login_required(login_url="/login")
+def ViewTypes(request):
+    types = TicketType.objects.all()
+    return render(request, "myapp/display_types.html", {"types": types})
+
+@login_required(login_url="/login")
+def ViewType(request, type_name):
+    try:
+        type_name.replace("%20", " ")
+    except:
+        pass
+    type = TicketType.objects.get(type_name=type_name)
+    return render(request, "myapp/display_type.html", {"type": type})
