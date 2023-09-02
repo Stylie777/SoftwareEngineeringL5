@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 import re, datetime
+from .models import Ticket
 
 def HomePage(request):
     return render(request, "myapp/home.html")
@@ -78,3 +79,13 @@ def CreateTicketTypePage(request):
         return redirect("Home")
     
     return render(request, "myapp/add_ticket_type.html", context={"form":form})
+
+@login_required(login_url="/login")
+def ViewTickets(request):
+    tickets = Ticket.objects.all()
+    return render(request, "myapp/display_tickets.html", {"tickets": tickets})
+
+@login_required(login_url="/login")
+def ViewTicket(request, id: int):
+    ticket = Ticket.objects.get(ticket_id=id)
+    return render(request, "myapp/display_ticket.html", {"ticket":ticket})
