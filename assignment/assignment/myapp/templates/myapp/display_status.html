@@ -3,7 +3,8 @@
 <h1>Status: {{status.status_name}}</h1>
 {% endblock %}
 {% block content %}
-<div class="container">
+    {% include 'myapp/messages.html' %}
+    <div class="container">
     <div class="row">
         <div class="col-sm">
             <h5> Status: {{status.status_name}}</h5>
