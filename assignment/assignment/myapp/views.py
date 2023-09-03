@@ -163,3 +163,11 @@ def DeleteTicket(request, id):
     messages.success(request, message=f"Ticket {id} deleted")
 
     return redirect("View Tickets")
+
+@user_passes_test(lambda user: user.is_superuser)
+def DeleteStatus(request, status_name):
+    status = Status.objects.get(status_name=status_name)
+    status.delete()
+    messages.success(request, message=f"Status, {status_name}, deleted")
+
+    return redirect("View Statuses")
