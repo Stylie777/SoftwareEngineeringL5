@@ -39,6 +39,7 @@ urlpatterns = [
     path("update_ticket/<int:id>", views.UpdateTicket, name="Update Ticket"),
     path("update_status/<str:status_name>", views.UpdateStatus, name="Update Status"),
     path("update_type/<str:type_name>", views.UpdateTicketType, name="Update Type"),
+    path("delete_ticket/<int:id>", views.DeleteTicket, name="Delete Ticket"),
 ]
 
 urlpatterns +=staticfiles_urlpatterns()

@@ -3,7 +3,7 @@ from .forms import NewUser, AddTicket, AddStatus, AddTicketType
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 import re, datetime
 from .models import Ticket, Status, TicketType
 
@@ -155,3 +155,11 @@ def UpdateTicketType(request, type_name):
         messages.success(request, message=f"Ticket Type, {type_name}, Updated")
         return redirect("View Types")
     return render(request, "myapp/update_type.html", {"form": form})
+
+@user_passes_test(lambda user: user.is_superuser)
+def DeleteTicket(request, id):
+    ticket = Ticket.objects.get(ticket_id=id)
+    ticket.delete()
+    messages.success(request, message=f"Ticket {id} deleted")
+
+    return redirect("View Tickets")
