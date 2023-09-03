@@ -114,3 +114,16 @@ def ViewType(request, type_name):
         pass
     type = TicketType.objects.get(type_name=type_name)
     return render(request, "myapp/display_type.html", {"type": type})
+
+@login_required(login_url="/login")
+def UpdateTicket(request, id):
+    instance = Ticket.objects.get(ticket_id=id)
+    form = AddTicket(request.POST or None, instance=instance)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, message=f"Ticket {id} Updated")
+        return redirect("View Tickets")
+    return render(request, "myapp/update_ticket.html", {"form": form})
+
+@login_required(login_url="/login")
