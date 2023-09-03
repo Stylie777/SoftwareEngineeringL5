@@ -127,3 +127,16 @@ def UpdateTicket(request, id):
     return render(request, "myapp/update_ticket.html", {"form": form})
 
 @login_required(login_url="/login")
+def UpdateStatus(request, status_name):
+    try:
+        status_name.replace("%20", " ")
+    except:
+        pass
+    instance = Status.objects.get(status_name=status_name)
+    form = AddStatus(request.POST or None, instance=instance)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request, message=f"Status, {status_name}, Updated")
+        return redirect("View Statuses")
+    return render(request, "myapp/update_status.html", {"form": form})
