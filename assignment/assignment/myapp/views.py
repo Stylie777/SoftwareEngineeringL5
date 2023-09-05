@@ -56,7 +56,7 @@ def CreateTicketPage(request):
         messages.success(request, message="Ticket logged")
         return redirect("Home")
 
-    return render(request, 'myapp/add_ticket.html', context={"form":form})
+    return render(request, 'myapp/form.html', context={"form":form, "title": "Create Ticket"})
 
 @login_required(login_url="/login")
 def CreateStatusPage(request):
@@ -67,7 +67,7 @@ def CreateStatusPage(request):
         messages.success(request, "Status Type Created")
         return redirect("Home")
     
-    return render(request, "myapp/add_status.html", context={"form":form})
+    return render(request, "myapp/form.html", context={"form":form, "title": "Create Status"})
 
 @login_required(login_url="/login")
 def CreateTicketTypePage(request):
@@ -78,7 +78,7 @@ def CreateTicketTypePage(request):
         messages.success(request, "Ticket Type Created")
         return redirect("Home")
     
-    return render(request, "myapp/add_ticket_type.html", context={"form":form})
+    return render(request, "myapp/form.html", context={"form":form, "title": "Create Ticket Type"})
 
 @login_required(login_url="/login")
 def ViewTickets(request):
@@ -124,7 +124,7 @@ def UpdateTicket(request, id):
         form.save()
         messages.success(request, message=f"Ticket {id} Updated")
         return redirect("View Tickets")
-    return render(request, "myapp/update_ticket.html", {"form": form})
+    return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket"})
 
 @login_required(login_url="/login")
 def UpdateStatus(request, status_name):
@@ -139,7 +139,7 @@ def UpdateStatus(request, status_name):
         form.save()
         messages.success(request, message=f"Status, {status_name}, Updated")
         return redirect("View Statuses")
-    return render(request, "myapp/update_status.html", {"form": form})
+    return render(request, "myapp/form.html", {"form": form, "title": "Update Status"})
 
 @login_required(login_url="/login")
 def UpdateTicketType(request, type_name):
@@ -154,7 +154,7 @@ def UpdateTicketType(request, type_name):
         form.save()
         messages.success(request, message=f"Ticket Type, {type_name}, Updated")
         return redirect("View Types")
-    return render(request, "myapp/update_type.html", {"form": form})
+    return render(request, "myapp/update_type.html", {"form": form, "title": "Update Ticket Type"})
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicket(request, id):
