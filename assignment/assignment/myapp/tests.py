@@ -1,5 +1,7 @@
 from django.test import TestCase
 from myapp.models import Status, TicketType
+from django.urls import reverse
+from myapp.views import CreateStatusPage
 
 class TestStatusModel(TestCase):
     @classmethod
@@ -11,6 +13,12 @@ class TestStatusModel(TestCase):
         status = self.create_status_object()
         status_name = status.__str__()
         self.assertEqual(status_name, "Test Status")
+
+    def test_create_status_form_view(self):
+        url = reverse(CreateStatusPage)
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
 
 class TestTicketTypeModel(TestCase):
     @classmethod
