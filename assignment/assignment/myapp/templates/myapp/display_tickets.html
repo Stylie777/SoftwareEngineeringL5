@@ -1,0 +1,37 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+<h1>View Tickets</h1>
+{% endblock %}
+{% block content %}
+    {% include 'myapp/messages.html' %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Ticket Title</th>
+                <th>Ticket Type</th>
+                <th>Ticket Status</th>
+                <th>View Ticket</th>
+                <th>Update Ticket</th>
+                {% if user.is_superuser %}
+                <th> Delete Ticket</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+                <tr scope="row">
+                    <td> {{ticket.ticket_id}} </td>
+                    <td> {{ticket.ticket_title}} </td>
+                    <td> {{ticket.type}} </td>
+                    <td> {{ticket.status}} </td>
+                    <td> <a href="/view_ticket/{{ticket.ticket_id}}"> Link </a> </td>
+                    <td> <a href="/update_ticket/{{ticket.ticket_id}}"> Update </a> </td>
+                    {% if user.is_superuser %}
+                    <td> <a href="/delete_ticket/{{ticket.ticket_id}}"> Delete </a> </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+<h1>View Types</h1>
+{% endblock %}
+{% block content %}
+    {% include 'myapp/messages.html' %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Type Name</th>
+                <th>View Type</th>
+                <th>Update Type</th>
+                {% if user.is_superuser %}
+                <th> Delete Type</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for type in types %}
+                <tr scope="row">
+                    <td> {{type.type_name}} </td>
+                    <td> <a href="/view_type/{{type.type_name}}"> View </a> </td>
+                    <td> <a href="/update_type/{{type.type_name}}"> Update </a> </td>
+                    {% if user.is_superuser %}
+                    <td> <a href="/delete_type/{{type.type_name}}"> Delete </a> </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

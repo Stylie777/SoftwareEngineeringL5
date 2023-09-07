@@ -1,0 +1,29 @@
+{% extends "myapp/base.html" %}
+{% block title %}
+<h1>Ticket {{ticket.ticket_id}}</h1>
+{% endblock %}
+{% block content %}
+{% include 'myapp/messages.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2>{{ticket.ticket_title}}</h2>
+        </div>
+        <div class="col-sm">
+            <h5> Status: {{ticket.status}}</h5>
+            <h5> Type: {{ticket.type}}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <p>{{ticket.ticket_info}}</p>
+            </div>
+        </div>
+        <button type="button" class ="btn btn-warning" href="#">Update</button>
+        {% if user.is_superuser %}
+        <button type="button" class ="btn btn-danger" href="#">Delete</button>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
