@@ -4,7 +4,6 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-import re, datetime
 from .models import Ticket, Status, TicketType
 
 def HomePage(request):
