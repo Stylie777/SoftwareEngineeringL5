@@ -97,7 +97,10 @@ def ViewStatuses(request):
 
 @login_required(login_url="/login")
 def ViewStatus(request, status_name):
-    status_name.replace("%20", " ")
+    try:
+        status_name.replace("%20", " ")
+    except:
+        pass
     status = Status.objects.get(status_name=status_name)
     return render(request, "myapp/display_status.html", {"status": status})
 
