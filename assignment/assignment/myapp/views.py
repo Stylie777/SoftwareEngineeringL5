@@ -159,23 +159,39 @@ def UpdateTicketType(request, type_name):
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicket(request, id):
     ticket = Ticket.objects.get(ticket_id=id)
-    ticket.delete()
-    messages.success(request, message=f"Ticket {id} deleted")
 
-    return redirect("View Tickets")
+    if request.method == "POST":
+        if "delete" in request.POST:
+            ticket.delete()
+            messages.success(request, message=f"Ticket {id} deleted")
+
+        return redirect("View Tickets")
+    
+    return render(request, "myapp/delete_object.html", context={"model_name": "Ticket", "object_id": ticket.ticket_id})
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteStatus(request, status_name):
     status = Status.objects.get(status_name=status_name)
-    status.delete()
-    messages.success(request, message=f"Status, {status_name}, deleted")
 
-    return redirect("View Statuses")
+    if request.method == "POST":
+        if "delete" in request.POST:
+            status.delete()
+            messages.success(request, message=f"Status, {status_name}, deleted")
+
+        return redirect("View Statuses")
+    
+    return render(request, "myapp/delete_object.html", context={"model_name": "Status", "object_id": status.status_name})
+
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicketType(request, type_name):
     type = TicketType.objects.get(type_name=type_name)
-    type.delete()
-    messages.success(request, message=f"Type, {type_name}, deleted")
 
-    return redirect("View Types")
+    if request.method == "POST":
+        if "delete" in request.POST:
+            type.delete()
+            messages.success(request, message=f"Type, {type_name}, deleted")
+
+        return redirect("View Types")
+    
+    return render(request, "myapp/delete_object.html", context={"model_name": "Ticket Type", "object_id": type.ticket_id})
