@@ -7,7 +7,7 @@ class TestStatusModel(TestCase):
         status_object =  Status.objects.create(status_name=status_name, status_description=status_description)
         return status_object
 
-    def test_string_creation(self):
+    def test_string_creation_for_forms(self):
         status = self.create_status_object()
         status_name = status.__str__()
         self.assertEqual(status_name, "Test Status")
