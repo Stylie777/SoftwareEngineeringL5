@@ -28,7 +28,7 @@ class TestStatusModel(TestCase):
         status_name = status.__str__()
         self.assertEqual(status_name, "Test Status")
 
-    def test_create_status_form_view(self):
+    def test_create_status_view(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
         status = self.create_status_object()
