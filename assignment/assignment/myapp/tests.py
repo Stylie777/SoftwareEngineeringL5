@@ -1,13 +1,27 @@
 from django.test import TestCase
 from myapp.models import Status, TicketType
 from django.urls import reverse
-from myapp.views import CreateStatusPage
+from myapp.views import CreateStatusPage, ViewStatuses, ViewStatus, UpdateStatus, DeleteStatus
+from django.contrib.auth.models import User
+from django.test.client import RequestFactory
 
 class TestStatusModel(TestCase):
-    @classmethod
     def create_status_object(self, status_name="Test Status", status_description="This is a test status"):
         status_object =  Status.objects.create(status_name=status_name, status_description=status_description)
         return status_object
+
+    def get_response_code(self, url) -> int:
+        return self.client.get(url).status_code
+    
+    def create_user(self):
+        self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
+
+    def create_super_user(self):
+        self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
+
+    def create_request(self, url):
+        factory = RequestFactory() 
+        return factory.get(url)
 
     def test_string_creation_for_forms(self):
         status = self.create_status_object()
@@ -15,10 +29,39 @@ class TestStatusModel(TestCase):
         self.assertEqual(status_name, "Test Status")
 
     def test_create_status_form_view(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        status = self.create_status_object()
         url = reverse(CreateStatusPage)
-        response = self.client.get(url)
+        self.assertEqual(self.get_response_code(url), 200)
+        self.assertIn(status.status_name, "Test Status")
 
-        self.assertEqual(response.status_code, 302)
+    def test_view_statuses_view(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(ViewStatuses)
+        self.assertEqual(self.get_response_code(url), 200)
+    
+    def test_view_status_view(self):
+        self.create_status_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(ViewStatus, args=["Test Status"])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def test_update_status_view(self):
+        self.create_status_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(UpdateStatus, args=["Test Status"])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def test_delete_status_view(self):
+        self.create_status_object()
+        self.create_super_user()
+        self.client.login(username="Test Account Admin", password="TestPassword")
+        url = reverse(DeleteStatus, args=["Test Status"])
+        self.assertEqual(self.get_response_code(url), 200)
 
 class TestTicketTypeModel(TestCase):
     @classmethod
