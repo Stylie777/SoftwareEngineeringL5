@@ -41,6 +41,7 @@ def LoginPage(request):
     form = AuthenticationForm()
     return render(request=request, template_name="myapp/login.html", context={"login_form":form})
 
+@login_required(login_url="/login")
 def LogoutPage(request):
     logout(request)
     messages.info(request, "You have logged out.")
