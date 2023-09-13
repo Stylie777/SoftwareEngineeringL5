@@ -21,7 +21,7 @@ class TestStatusModel(TestCase):
     def get_response_code(self, url) -> int:
         return self.client.get(url).status_code
 
-    def test_create_status_view(self):
+    def test_create_status_view_response_code(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
         status = self.create_status_object()
@@ -29,30 +29,30 @@ class TestStatusModel(TestCase):
         self.assertEqual(self.get_response_code(url), 200)
         self.assertIn(status.status_name, "Test Status")
 
-    def test_view_statuses_view(self):
+    def test_view_statuses_view_response_code(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
         url = reverse(ViewStatuses)
         self.assertEqual(self.get_response_code(url), 200)
     
-    def test_view_status_view(self):
+    def test_view_status_view_response_code(self):
         self.create_status_object()
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
         url = reverse(ViewStatus, args=["Test Status"])
         self.assertEqual(self.get_response_code(url), 200)
 
-    def test_update_status_view(self):
+    def test_update_status_view_response_code(self):
         self.create_status_object()
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
         url = reverse(UpdateStatus, args=["Test Status"])
         self.assertEqual(self.get_response_code(url), 200)
 
-    def test_delete_status_view(self):
     def create_super_user(self):
         self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
 
+    def test_delete_status_view_response_code(self):
         self.create_status_object()
         self.create_super_user()
         self.client.login(username="Test Account Admin", password="TestPassword")
