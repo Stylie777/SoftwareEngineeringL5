@@ -58,6 +58,23 @@ class TestStatusModel(TestCase):
         url = reverse(DeleteStatus, args=["Test Status"])
         self.assertEqual(self.get_response_code(url), 200)
 
+    def create_status_form(self, status_name: str, status_description: str) -> AddStatus:
+        data = {'status_name': status_name, 'status_description': status_description}
+        return AddStatus(data=data)
+
+    def test_add_status_form_when_name_does_not_have_capital_letter_at_start_of_type_name(self):
+        form = self.create_status_form('test Status', 'This is a test')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_does_not_exist(self):
+        form = self.create_status_form('', 'This is a test')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_has_capital_letter_at_start_of_type_name(self):
+        form = self.create_status_form('Test Status', 'This is a test')
+        result = form.is_valid()
+        self.assertTrue(result)
+
 class TestTicketTypeModel(TestCase):
     @classmethod
     def create_ticket_type_object(self, type_name="Test Ticket Type", type_description="This is a test description"):
