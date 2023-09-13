@@ -11,5 +11,11 @@
     {% if model_name == "Ticket"%}
     <button href="/view_tickets" class="btn btn-warning">Cancel</button>
     {% endif %}
+    {% if model_name == "Status"%}
+    <button href="/view_statuses" class="btn btn-warning">Cancel</button>
+    {% endif %}
+    {% if model_name == "Ticket Type"%}
+    <button href="/view_types" class="btn btn-warning">Cancel</button>
+    {% endif %}
 </form>
 {% endblock %}
