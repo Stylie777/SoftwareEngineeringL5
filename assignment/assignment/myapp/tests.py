@@ -76,7 +76,6 @@ class TestStatusModel(TestCase):
         self.assertTrue(result)
 
 class TestTicketTypeModel(TestCase):
-    @classmethod
     def create_ticket_type_object(self, type_name="Test Ticket Type", type_description="This is a test description"):
         return TicketType.objects.create(type_name=type_name, type_description=type_description)
 
