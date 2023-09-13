@@ -53,23 +53,25 @@ Only other admin users can add new admins, and this is done using the `django-ad
 
 ## Database fields
 
+The fields listed below in __bold__ are required fields, and cannot be left blank. The forms are designed to remind the user of this when entering data into a form.
+
 ### Ticket Type
 
-- Ticket Title: this must starts with a captial letter and __is required__
+- __Ticket Title: this must starts with a captial letter and is required__
 - Ticket info: This contains the details on the ticket that is being created
-- Assignee: This will be a user that is registered to the website and __is required__
-- Status: This is one of the status entries that can be created by users and __is_required__
+- __Assignee: This will be a user that is registered to the website and is required__
+- __Status: This is one of the status entries that can be created by users and is_required__
 - Type; This is the type of ticket being created
 - Date due: This is the date the ticket is due to be completed by
 
 ### Status
 
-- Status name: This must start with a captial letter and __is required__
+- __Status name: This must start with a captial letter and is required__
 - Status description: This is the description of the status being created where extra information can be added
 
 ### Ticket
 
-- Type name: This must start with a captial letter and __is required__
+- __Type name: This must start with a captial letter and is required__
 - Type description: This is the type description being created where extra information can be added about the type.
 
 ## Tests
