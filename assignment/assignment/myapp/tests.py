@@ -5,6 +5,7 @@ from myapp.views import CreateStatusPage, ViewStatuses, ViewStatus, UpdateStatus
 from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from myapp.forms import AddStatus, AddTicketType, Ticket, AddTicket
+import datetime
 
 class TestStatusModel(TestCase):
     def create_status_object(self, status_name="Test Status", status_description="This is a test status"):
@@ -145,3 +146,74 @@ class TestTicketTypeModel(TestCase):
         result = form.is_valid()
         self.assertTrue(result)
 
+class TestTicketModel(TestCase):
+    status_model = TestStatusModel()
+    type_model = TestTicketTypeModel()
+    
+    def create_ticket_object(self, ticket_title="Test Ticket Title"):
+        status_object = self.status_model.create_status_object()
+        type_object = self.type_model.create_ticket_type_object()
+        return Ticket.objects.create(ticket_title=ticket_title, date_reported=datetime.date.today(), status_id=status_object, type_id=type_object)
+    
+    def create_user(self):
+        self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
+
+    def get_response_code(self, url:str) -> int:
+        return self.client.get(url).status_code
+
+    def test_create_ticket_view_response_code(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        ticket = self.create_ticket_object()
+        url = reverse(CreateTicketPage)
+        self.assertEqual(self.get_response_code(url), 200)
+    
+    def test_view_tickets_view_response_code(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(ViewTickets)
+        self.assertEqual(self.get_response_code(url), 200)
+    
+    def test_view_ticket_view_response_code(self):
+        self.create_ticket_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        ticket = Ticket.objects.get(ticket_title="Test Ticket Title")
+        url = reverse(ViewTicket, args=[ticket.ticket_id])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def test_update_ticket_view_response_code(self):
+        self.create_ticket_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        ticket = Ticket.objects.get(ticket_title="Test Ticket Title")
+        url = reverse(UpdateTicket, args=[ticket.ticket_id])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def create_super_user(self):
+        self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
+
+    def test_delete_ticket_view_response_code(self):
+        self.create_ticket_object()
+        self.create_super_user()
+        self.client.login(username="Test Account Admin", password="TestPassword")
+        ticket = Ticket.objects.get(ticket_title="Test Ticket Title")
+        url = reverse(DeleteTicket, args=[ticket.ticket_id])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def create_ticket_form(self, ticket_title: str) -> AddTicketType:
+        data = {'ticket_title': ticket_title, 'status': self.status_model.create_status_object(), 'type': self.type_model.create_ticket_type_object()}
+        return AddTicket(data=data)
+
+    def test_add_ticket_form_when_name_does_not_have_capital_letter_at_start_of_string(self):
+        form = self.create_ticket_form('test Ticket')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_does_not_exist(self):
+        form = self.create_ticket_form('')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_has_capital_letter_at_start(self):
+        form = self.create_ticket_form('Test Ticket')
+        result = form.is_valid()
+        self.assertTrue(result)
