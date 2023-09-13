@@ -1,9 +1,10 @@
 from django.test import TestCase
 from myapp.models import Status, TicketType
 from django.urls import reverse
-from myapp.views import CreateStatusPage, ViewStatuses, ViewStatus, UpdateStatus, DeleteStatus
+from myapp.views import CreateStatusPage, ViewStatuses, ViewStatus, UpdateStatus, DeleteStatus, CreateTicketTypePage, ViewTypes, ViewType, UpdateTicketType, DeleteTicketType, CreateTicketPage, ViewTickets, ViewTicket, UpdateTicket, DeleteTicket
 from django.contrib.auth.models import User
 from django.test.client import RequestFactory
+from myapp.forms import AddStatus, AddTicketType, Ticket, AddTicket
 
 class TestStatusModel(TestCase):
     def create_status_object(self, status_name="Test Status", status_description="This is a test status"):
