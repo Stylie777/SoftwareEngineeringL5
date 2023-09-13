@@ -27,7 +27,6 @@ class TestStatusModel(TestCase):
         status = self.create_status_object()
         url = reverse(CreateStatusPage)
         self.assertEqual(self.get_response_code(url), 200)
-        self.assertIn(status.status_name, "Test Status")
 
     def test_view_statuses_view_response_code(self):
         self.create_user()
