@@ -157,7 +157,7 @@ def UpdateTicketType(request, type_name):
         form.save()
         messages.success(request, message=f"Ticket Type, {type_name}, Updated")
         return redirect("View Types")
-    return render(request, "myapp/update_type.html", {"form": form, "title": "Update Ticket Type"})
+    return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket Type"})
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicket(request, id):
