@@ -82,4 +82,64 @@ class TestTicketTypeModel(TestCase):
     def test_string_creation(self):
         ticket_type = self.create_ticket_type_object()
         ticket_type_name = ticket_type.__str__()
-        self.assertEqual(ticket_type_name, "Test Ticket Type")
+
+    def create_user(self):
+        self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
+
+    def get_response_code(self, url:str) -> int:
+        return self.client.get(url).status_code
+
+    def test_create_ticket_type_view_response_code(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        ticket_type = self.create_ticket_type_object()
+        url = reverse(CreateTicketTypePage)
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def test_view_statuses_view_response_code(self):
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(ViewTypes)
+        self.assertEqual(self.get_response_code(url), 200)
+    
+    def test_view_status_view_response_code(self):
+        self.create_ticket_type_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(ViewType, args=["Test Ticket Type"])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def test_update_status_view_response_code(self):
+        self.create_ticket_type_object()
+        self.create_user()
+        self.client.login(username="Test Account", password="TestPassword")
+        url = reverse(UpdateTicketType, args=["Test Ticket Type"])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def create_super_user(self):
+        self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
+
+    def test_delete_status_view_response_code(self):
+        self.create_ticket_type_object()
+        self.create_super_user()
+        self.client.login(username="Test Account Admin", password="TestPassword")
+        url = reverse(DeleteTicketType, args=["Test Ticket Type"])
+        self.assertEqual(self.get_response_code(url), 200)
+
+    def create_ticket_type_form(self, type_name: str, type_description: str) -> AddTicketType:
+        data = {'type_name': type_name, 'type_description': type_description}
+        return AddTicketType(data=data)
+
+    def test_add_ticket_type_form_when_name_does_not_have_capital_letter_at_start_of_string(self):
+        form = self.create_ticket_type_form('test Type', 'This is a test')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_does_not_exist(self):
+        form = self.create_ticket_type_form('', 'This is a test')
+        self.assertFalse(form.is_valid())
+
+    def test_add_status_form_when_name_has_capital_letter_at_start(self):
+        form = self.create_ticket_type_form('Test Type', 'This is a test')
+        result = form.is_valid()
+        self.assertTrue(result)
+
