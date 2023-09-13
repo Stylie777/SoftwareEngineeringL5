@@ -111,4 +111,4 @@ class AddTicketType(forms.ModelForm):
         return ticket_type
 
 def check_capital_letter(text):
-    return re.match(r"([A-Z][A-Z, a-z, 0-9]*)+", text)
+    return bool(re.match(r"(^[A-Z]{1}[\w\s]*){1}", text))
