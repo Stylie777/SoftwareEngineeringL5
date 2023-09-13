@@ -10,23 +10,16 @@ class TestStatusModel(TestCase):
         status_object =  Status.objects.create(status_name=status_name, status_description=status_description)
         return status_object
 
-    def get_response_code(self, url) -> int:
-        return self.client.get(url).status_code
-    
-    def create_user(self):
-        self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
-
-    def create_super_user(self):
-        self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
-
-    def create_request(self, url):
-        factory = RequestFactory() 
-        return factory.get(url)
-
     def test_string_creation_for_forms(self):
         status = self.create_status_object()
         status_name = status.__str__()
         self.assertEqual(status_name, "Test Status")
+    
+    def create_user(self):
+        self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
+
+    def get_response_code(self, url) -> int:
+        return self.client.get(url).status_code
 
     def test_create_status_view(self):
         self.create_user()
@@ -57,6 +50,9 @@ class TestStatusModel(TestCase):
         self.assertEqual(self.get_response_code(url), 200)
 
     def test_delete_status_view(self):
+    def create_super_user(self):
+        self.user = User.objects.create_superuser(username="Test Account Admin", email="testadmin@test.com", password="TestPassword")
+
         self.create_status_object()
         self.create_super_user()
         self.client.login(username="Test Account Admin", password="TestPassword")
