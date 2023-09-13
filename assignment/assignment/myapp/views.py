@@ -197,4 +197,4 @@ def DeleteTicketType(request, type_name):
 
         return redirect("View Types")
     
-    return render(request, "myapp/delete_object.html", context={"model_name": "Ticket Type", "object_id": type.ticket_id})
+    return render(request, "myapp/delete_object.html", context={"model_name": "Ticket Type", "object_id": type.type_name})
