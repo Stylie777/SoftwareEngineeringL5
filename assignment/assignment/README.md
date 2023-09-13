@@ -76,7 +76,9 @@ The fields listed below in __bold__ are required fields, and cannot be left blan
 
 ## Tests
 
-Unit Tests have been written for all models, views and forms contained within the `tests.py` file. These tests are written as high level tests, so changes to functions logic should not effect the end result, unless the return values from the functions being tested change. 
+Unit tests have been written for models, views and forms used within the project. The tests can be found within the `tests.py` file. The unit tests are written as high level tests, so changes to functions logic should not effect the end result or changes to the tests themselves. This also allows the user to confirm any changes to the logic is valid when the Unit Tests pass.
+
+The tests look at the models defined within `models.py`. Django's User Authentication models are not tested, as this is not models or logic that has been added as part of this project  
 
 To run these, use this command in the terminal in the same directory as used above.
 
@@ -84,6 +86,6 @@ To run these, use this command in the terminal in the same directory as used abo
 python3 manage.py test
 ```
 
-This should be run everytime a change is made to ensure continued validation of the webpage and ensure there are no errors  
+This should be run everytime a change is made to ensure continued validation of the webpage and ensure there are no errors. 
 
 [online-webpage]: http://stylie777.pythonanywhere.com
