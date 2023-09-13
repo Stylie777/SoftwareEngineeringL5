@@ -83,6 +83,7 @@ class TestTicketTypeModel(TestCase):
     def test_string_creation(self):
         ticket_type = self.create_ticket_type_object()
         ticket_type_name = ticket_type.__str__()
+        self.assertEqual(ticket_type_name, "Test Ticket Type")
 
     def create_user(self):
         self.user = User.objects.create_user(username="Test Account", email="test@test.com", password="TestPassword")
