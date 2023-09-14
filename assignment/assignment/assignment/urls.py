@@ -44,4 +44,4 @@ urlpatterns = [
     path("delete_type/<str:type_name>", views.DeleteTicketType, name="Delete Type"),
 ]
 
-urlpatterns +=staticfiles_urlpatterns()
+urlpatterns += staticfiles_urlpatterns()

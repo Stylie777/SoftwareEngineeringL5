@@ -14,7 +14,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger',
+    messages.ERROR: "danger",
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-$vvzm)ql3^kxhwotmjiq)k_y_$5d5$03be5ysjo+4uob(jtky8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1",  "stylie777.pythonanywhere.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "stylie777.pythonanywhere.com"]
 
 
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "myapp.apps.MyappConfig"
+    "myapp.apps.MyappConfig",
 ]
 
 MIDDLEWARE = [
