@@ -18,7 +18,12 @@
                 <p>{{status.status_description}}</p>
             </div>
         </div>
-        <button type="button" class ="btn btn-warning" href="#">Update</button>
+    </div>
+    <div class = "row">
+        <div class="col-sm">
+            <a role="button" class ="btn btn-warning" href="../update_status/{{status.status_name}}">Update</a>
+        </div>
+    </div>
     <div class = "row">
         <div class="col-sm">
             {% if user.is_superuser %}
