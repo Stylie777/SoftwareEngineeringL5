@@ -20,10 +20,15 @@
                 <p>{{ticket.ticket_info}}</p>
             </div>
         </div>
-        <button type="button" class ="btn btn-warning" href="#">Update</button>
         {% if user.is_superuser %}
         <button type="button" class ="btn btn-danger" href="#">Delete</button>
         {% endif %}
+    </div>
+    <div class = "row">
+        <div class="col-sm">
+            <a role="button" class ="btn btn-warning" href="../update_ticket/{{ticket.ticket_id}}">Update</a>
+        </div>
+    </div>
     </div>
 </div>
 {% endblock %}
