@@ -30,7 +30,16 @@ class NewUser(UserCreationForm):
             "password2": forms.TextInput(attrs={"class": "form-control"}),
         }
 
-    def save(self, commit=True):
+    def save(self, commit: bool=True):
+        """
+        Saves the object to the datatable
+
+        Parameters:
+            commit (bool): Is the object being commited to the datatable
+        
+        Returns:
+            user (NewUser): A User object, the object that has been entered into the datatable
+        """
         user = super(NewUser, self).save(commit=False)
         user.email = self.cleaned_data["email"]
 
@@ -62,7 +71,13 @@ class AddTicket(forms.ModelForm):
             ),
         }
 
-    def clean_ticket_title(self):
+    def clean_ticket_title(self) -> str:
+        """
+        Apply validation to the user input of the ticket title
+
+        Returns:
+            ticket_title (str): The validated ticket title
+        """
         ticket_title = self.cleaned_data["ticket_title"]
 
         if not check_capital_letter(ticket_title):
@@ -73,6 +88,15 @@ class AddTicket(forms.ModelForm):
         return ticket_title
 
     def save(self, commit=True):
+        """
+        Commit the entry to the Ticket datatable
+
+        Parameters:
+            commit (bool): If the entry should be committed to the datatable
+
+        Returns:
+            ticket(AddTicket): The ticket object that is being committed  
+        """
         ticket = super(AddTicket, self).save(commit=False)
         ticket.date_reported = datetime.date.today()
 
@@ -91,7 +115,13 @@ class AddStatus(forms.ModelForm):
             "status_description": forms.Textarea(attrs={"class": "form-control"}),
         }
 
-    def clean_status_name(self):
+    def clean_status_name(self) -> str:
+        """
+        Apply validation to the Status Name that is entered by the user
+
+        Returns:
+            status_name (str): The validated Status Name that is to be committed
+        """
         status_name = self.cleaned_data["status_name"]
 
         if not check_capital_letter(status_name):
@@ -101,7 +131,16 @@ class AddStatus(forms.ModelForm):
 
         return status_name
 
-    def save(self, commit=True):
+    def save(self, commit: bool=True):
+        """
+        Commit the entry to the AddStatus datatable
+
+        Parameters:
+            commit (bool): Is the entry being committed
+        
+        Returns:
+            status (AddStatus): The object of the entry being commited to the datatable
+        """
         status = super(AddStatus, self).save(commit=False)
 
         if commit:
@@ -119,7 +158,13 @@ class AddTicketType(forms.ModelForm):
             "type_description": forms.Textarea(attrs={"class": "form-control"}),
         }
 
-    def clean_type_name(self):
+    def clean_type_name(self) -> str:
+        """
+        Validate the type name entered by the user
+
+        Returns:
+            type_name (str): The validated type name
+        """
         type_name = self.cleaned_data["type_name"]
 
         if not check_capital_letter(type_name):
@@ -129,7 +174,16 @@ class AddTicketType(forms.ModelForm):
 
         return type_name
 
-    def save(self, commit=True):
+    def save(self, commit: bool=True):
+        """
+        Commit the entry object to the TicketTyoe datatable
+
+        Parameters:
+            commit (bool): Is the object being committed to the datatable
+        
+        Returns:
+            ticket_type (AddTicketType): The object of the entry being committed. 
+        """
         ticket_type = super(AddTicketType, self).save(commit=False)
 
         if commit:
@@ -137,5 +191,14 @@ class AddTicketType(forms.ModelForm):
         return ticket_type
 
 
-def check_capital_letter(text):
+def check_capital_letter(text: str) -> bool:
+    """
+    Checks a string to ensure it starts with a capital letter
+    
+    Parameters:
+        text (str): The string to be examined
+    
+    Returns:
+        (bool): Boolean value to denote if the regex returned a match
+    """
     return bool(re.match(r"(^[A-Z]{1}[\w\s]*){1}", text))

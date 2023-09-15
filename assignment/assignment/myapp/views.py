@@ -8,10 +8,28 @@ from .models import Ticket, Status, TicketType
 
 
 def HomePage(request):
+    """
+    Renders the home page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the Django template
+    """
     return render(request, "myapp/home.html")
 
 
 def RegisterPage(request):
+    """
+    Renders the registration page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     if request.method == "POST":
         form = NewUser(request.POST)
 
@@ -33,6 +51,15 @@ def RegisterPage(request):
 
 
 def LoginPage(request):
+    """
+    Renders the login page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
 
@@ -57,6 +84,15 @@ def LoginPage(request):
 
 @login_required(login_url="/login")
 def LogoutPage(request):
+    """
+    Renders the logout page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     logout(request)
     messages.info(request, "You have logged out.")
     return redirect("Home")
@@ -64,6 +100,15 @@ def LogoutPage(request):
 
 @login_required(login_url="/login")
 def CreateTicketPage(request):
+    """
+    Renders the create ticket page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     form = AddTicket(request.POST)
 
     if form.is_valid():
@@ -78,6 +123,15 @@ def CreateTicketPage(request):
 
 @login_required(login_url="/login")
 def CreateStatusPage(request):
+    """
+    Renders the create status page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     form = AddStatus(request.POST)
 
     if form.is_valid():
@@ -92,6 +146,15 @@ def CreateStatusPage(request):
 
 @login_required(login_url="/login")
 def CreateTicketTypePage(request):
+    """
+    Renders the create ticket type page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     form = AddTicketType(request.POST)
 
     if form.is_valid():
@@ -108,24 +171,60 @@ def CreateTicketTypePage(request):
 
 @login_required(login_url="/login")
 def ViewTickets(request):
+    """
+    Renders the view tickets page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     tickets = Ticket.objects.all()
     return render(request, "myapp/display_tickets.html", {"tickets": tickets})
 
 
 @login_required(login_url="/login")
 def ViewTicket(request, id: int):
+    """
+    Renders the view ticket page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     ticket = Ticket.objects.get(ticket_id=id)
     return render(request, "myapp/display_ticket.html", {"ticket": ticket})
 
 
 @login_required(login_url="/login")
 def ViewStatuses(request):
+    """
+    Renders the view statuses page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     statuses = Status.objects.all()
     return render(request, "myapp/display_statuses.html", {"statuses": statuses})
 
 
 @login_required(login_url="/login")
 def ViewStatus(request, status_name):
+    """
+    Renders the view status page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     try:
         status_name.replace("%20", " ")
     except:
@@ -136,12 +235,30 @@ def ViewStatus(request, status_name):
 
 @login_required(login_url="/login")
 def ViewTypes(request):
+    """
+    Renders the view types page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     types = TicketType.objects.all()
     return render(request, "myapp/display_types.html", {"types": types})
 
 
 @login_required(login_url="/login")
 def ViewType(request, type_name):
+    """
+    Renders the view type page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     try:
         type_name.replace("%20", " ")
     except:
@@ -152,6 +269,15 @@ def ViewType(request, type_name):
 
 @login_required(login_url="/login")
 def UpdateTicket(request, id):
+    """
+    Renders the update ticket page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     instance = Ticket.objects.get(ticket_id=id)
     form = AddTicket(request.POST or None, instance=instance)
 
@@ -164,6 +290,15 @@ def UpdateTicket(request, id):
 
 @login_required(login_url="/login")
 def UpdateStatus(request, status_name):
+    """
+    Renders the update status page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     try:
         status_name.replace("%20", " ")
     except:
@@ -180,6 +315,15 @@ def UpdateStatus(request, status_name):
 
 @login_required(login_url="/login")
 def UpdateTicketType(request, type_name):
+    """
+    Renders the update ticket type page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     try:
         type_name.replace("%20", " ")
     except:
@@ -198,6 +342,15 @@ def UpdateTicketType(request, type_name):
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicket(request, id):
+    """
+    Renders the delete ticket page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     ticket = Ticket.objects.get(ticket_id=id)
 
     if request.method == "POST":
@@ -216,6 +369,15 @@ def DeleteTicket(request, id):
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteStatus(request, status_name):
+    """
+    Renders the delete status page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     status = Status.objects.get(status_name=status_name)
 
     if request.method == "POST":
@@ -234,6 +396,15 @@ def DeleteStatus(request, status_name):
 
 @user_passes_test(lambda user: user.is_superuser)
 def DeleteTicketType(request, type_name):
+    """
+    Renders the delete ticket type page
+
+    Parameters:
+        request: The webpage request
+    
+    Returns:
+        : Render of the webpage using the django template
+    """
     type = TicketType.objects.get(type_name=type_name)
 
     if request.method == "POST":

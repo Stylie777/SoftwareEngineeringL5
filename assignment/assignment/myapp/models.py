@@ -6,7 +6,12 @@ class Status(models.Model):
     status_name = models.CharField(max_length=20, primary_key=True, null=False)
     status_description = models.CharField(max_length=100, blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Used to return formatted values from an entry to display information to the user in a more readable way
+        Returns:
+            self.status_name: The name of the status objects
+        """
         return self.status_name
 
 
@@ -15,6 +20,11 @@ class TicketType(models.Model):
     type_description = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
+        """
+        Used to return formatted values from an entry to display information to the user in a more readable way
+        Returns:
+            self.type: The name of the type objects
+        """
         return self.type_name
 
 
