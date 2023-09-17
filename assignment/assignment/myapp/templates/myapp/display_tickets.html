@@ -9,6 +9,7 @@
             <tr>
                 <th>Ticket ID</th>
                 <th>Ticket Title</th>
+                <th>Assignee</th>
                 <th>Ticket Type</th>
                 <th>Ticket Status</th>
                 <th>View Ticket</th>
@@ -23,6 +24,7 @@
                 <tr scope="row">
                     <td> {{ticket.ticket_id}} </td>
                     <td> {{ticket.ticket_title}} </td>
+                    <td> {{ticket.assignee}} </td>
                     <td> {{ticket.type}} </td>
                     <td> {{ticket.status}} </td>
                     <td> <a href="/view_ticket/{{ticket.ticket_id}}"> Link </a> </td>
