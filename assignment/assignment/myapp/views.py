@@ -17,6 +17,10 @@ def HomePage(request):
     Returns:
         : Render of the webpage using the Django template
     """
+    if request.user.is_authenticated:
+        tickets = Ticket.objects.filter(assignee=request.user.id)
+
+        return render(request, "myapp/home.html", context={"tickets": tickets if tickets else None})
     return render(request, "myapp/home.html")
 
 
