@@ -49,7 +49,6 @@ class TestStatusModel(TestCase):
     def test_create_status_view_response_code(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
-        status = self.create_status_object()
         url = reverse(CreateStatusPage)
         self.assertEqual(self.get_response_code(url), 200)
 
@@ -135,7 +134,6 @@ class TestTicketTypeModel(TestCase):
     def test_create_ticket_type_view_response_code(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
-        ticket_type = self.create_ticket_type_object()
         url = reverse(CreateTicketTypePage)
         self.assertEqual(self.get_response_code(url), 200)
 
@@ -220,7 +218,6 @@ class TestTicketModel(TestCase):
     def test_create_ticket_view_response_code(self):
         self.create_user()
         self.client.login(username="Test Account", password="TestPassword")
-        ticket = self.create_ticket_object()
         url = reverse(CreateTicketPage)
         self.assertEqual(self.get_response_code(url), 200)
 
