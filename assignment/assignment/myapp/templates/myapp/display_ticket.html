@@ -10,8 +10,8 @@
             <h2>{{ticket.ticket_title}}</h2>
         </div>
         <div class="col-sm">
-            <h5> Status: {{ticket.status}}</h5>
-            <h5> Type: {{ticket.type}}</h5>
+            <h5> Status: <a href="/view_status/{{ticket.status}}">{{ticket.status}}</a></h5>
+            <h5> Type: <a href="/view_type/{{ticket.type}}">{{ticket.type}}</a></h5>
         </div>
     </div>
     <div class="row">
