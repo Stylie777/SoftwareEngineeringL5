@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Django Week3",
+            "name": "Python: Django Assignment Project",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/Week3/manage.py",
+            "program": "${workspaceFolder}/assignment/assignment/manage.py",
             "args": [
                 "runserver"
             ],
