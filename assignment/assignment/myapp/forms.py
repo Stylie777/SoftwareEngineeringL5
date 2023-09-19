@@ -131,7 +131,7 @@ class AddStatus(forms.ModelForm):
 
         return status_name
 
-    def save(self, commit: bool=True):
+    def save(self, commit: bool=True, **kwargs):
         """
         Commit the entry to the AddStatus datatable
 
@@ -142,6 +142,13 @@ class AddStatus(forms.ModelForm):
             status (AddStatus): The object of the entry being commited to the datatable
         """
         status = super(AddStatus, self).save(commit=False)
+        request = kwargs.pop('request', None)
+        if request:
+            status.reporter_id = request.user.id
+        else:
+            # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
+            # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
+            status.reporter_id = 0
 
         if commit:
             status.save()

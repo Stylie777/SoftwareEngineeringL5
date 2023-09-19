@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Ticket, Status, TicketType
+from django.contrib.auth.models import User
 
 
 def HomePage(request):
@@ -202,6 +203,8 @@ def ViewTicket(request, id: int):
     ticket = Ticket.objects.get(ticket_id=id)
     return render(request, "myapp/display_ticket.html", {"ticket": ticket})
 
+def can_user_update(request, object):
+    return request.user.id == object.reporter_id or request.user.is_superuser
 
 @login_required(login_url="/login")
 def ViewStatuses(request):
@@ -214,8 +217,18 @@ def ViewStatuses(request):
     Returns:
         : Render of the webpage using the django template
     """
-    statuses = Status.objects.all()
-    return render(request, "myapp/display_statuses.html", {"statuses": statuses})
+    items = []
+    
+    for status in Status.objects.all():
+        try:
+            reporter = User.objects.get(id=status.reporter_id).username
+        except:
+            reporter = "None"
+
+        can_update = can_user_update(request, status)
+
+        items.append({"status": status, "reporter": reporter, "can_update": can_update})
+    return render(request, "myapp/display_statuses.html", {"items": items})
 
 
 @login_required(login_url="/login")
@@ -234,7 +247,7 @@ def ViewStatus(request, status_name):
     except:
         pass
     status = Status.objects.get(status_name=status_name)
-    return render(request, "myapp/display_status.html", {"status": status})
+    return render(request, "myapp/display_status.html", {"status": status, "can_update": can_user_update(request, status)})
 
 
 @login_required(login_url="/login")
@@ -307,14 +320,19 @@ def UpdateStatus(request, status_name):
         status_name.replace("%20", " ")
     except:
         pass
-    instance = Status.objects.get(status_name=status_name)
-    form = AddStatus(request.POST or None, instance=instance)
+    status = Status.objects.get(status_name=status_name)
 
-    if form.is_valid():
-        form.save()
-        messages.success(request, message=f"Status, {status_name}, Updated")
+    if can_user_update(request, status):
+        form = AddStatus(request.POST or None, instance=status)
+
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request, message=f"Status {status_name} Updated")
+            return redirect("View Statuses")
+        return render(request, "myapp/form.html", {"form": form, "title": "Update Status"})
+    else:
+        messages.error(request, message="You are not an admin user the user who created this status. You cannot update this status.")
         return redirect("View Statuses")
-    return render(request, "myapp/form.html", {"form": form, "title": "Update Status"})
 
 
 @login_required(login_url="/login")
