@@ -117,7 +117,7 @@ def CreateTicketPage(request):
     form = AddTicket(request.POST)
 
     if form.is_valid():
-        form.save()
+        form.save(request=request)
         messages.success(request, message="Ticket logged")
         return redirect("Home")
 
@@ -173,6 +173,12 @@ def CreateTicketTypePage(request):
         context={"form": form, "title": "Create Ticket Type"},
     )
 
+def can_user_update_ticket(request, object: Ticket) -> bool:
+    try:
+        return request.user.id == object.reporter_id or request.user.is_superuser  or request.user.id == object.assignee.id
+    except:
+        # If the above fails, the application assumes that the user cannot edit this ticket. This is a failsafe to prevent unauthorised updating on an entry
+        return False
 
 @login_required(login_url="/login")
 def ViewTickets(request):
@@ -185,8 +191,19 @@ def ViewTickets(request):
     Returns:
         : Render of the webpage using the django template
     """
-    tickets = Ticket.objects.all()
-    return render(request, "myapp/display_tickets.html", {"tickets": tickets})
+    items = []
+    
+    for ticket in Ticket.objects.all():
+        try:
+            reporter = User.objects.get(id=ticket.reporter_id).username
+        except:
+            reporter = "None"
+
+        can_update = can_user_update_ticket(request, ticket)
+
+        items.append({"ticket": ticket, "reporter": reporter, "can_update": can_update})
+
+    return render(request, "myapp/display_tickets.html", {"items": items})
 
 
 @login_required(login_url="/login")
@@ -201,7 +218,8 @@ def ViewTicket(request, id: int):
         : Render of the webpage using the django template
     """
     ticket = Ticket.objects.get(ticket_id=id)
-    return render(request, "myapp/display_ticket.html", {"ticket": ticket})
+    
+    return render(request, "myapp/display_ticket.html", {"ticket": ticket, "can_update": can_user_update_ticket(request, ticket)})
 
 def can_user_update(request, object):
     return request.user.id == object.reporter_id or request.user.is_superuser
@@ -295,14 +313,19 @@ def UpdateTicket(request, id):
     Returns:
         : Render of the webpage using the django template
     """
-    instance = Ticket.objects.get(ticket_id=id)
-    form = AddTicket(request.POST or None, instance=instance)
+    ticket = Ticket.objects.get(ticket_id=id)
 
-    if form.is_valid():
-        form.save()
-        messages.success(request, message=f"Ticket {id} Updated")
+    if can_user_update_ticket(request, ticket):
+        form = AddTicket(request.POST or None, instance=ticket)
+
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request, message=f"Ticket {id} Updated")
+            return redirect("View Tickets")
+        return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket"})
+    else:
+        messages.error(request, message="You are not an admin user, the assigned user or the user who created this ticket. You cannot update this ticket.")
         return redirect("View Tickets")
-    return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket"})
 
 
 @login_required(login_url="/login")

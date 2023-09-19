@@ -87,7 +87,7 @@ class AddTicket(forms.ModelForm):
 
         return ticket_title
 
-    def save(self, commit=True):
+    def save(self, commit: bool=True, **kwargs):
         """
         Commit the entry to the Ticket datatable
 
@@ -99,6 +99,13 @@ class AddTicket(forms.ModelForm):
         """
         ticket = super(AddTicket, self).save(commit=False)
         ticket.date_reported = datetime.date.today()
+        request = kwargs.pop('request', None)
+        if request:
+            ticket.reporter_id = request.user.id
+        else:
+            # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
+            # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
+            ticket.reporter_id = 0
 
         if commit:
             ticket.save()
