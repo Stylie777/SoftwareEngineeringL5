@@ -30,13 +30,13 @@ class NewUser(UserCreationForm):
             "password2": forms.TextInput(attrs={"class": "form-control"}),
         }
 
-    def save(self, commit: bool=True):
+    def save(self, commit: bool = True):
         """
         Saves the object to the datatable
 
         Parameters:
             commit (bool): Is the object being commited to the datatable
-        
+
         Returns:
             user (NewUser): A User object, the object that has been entered into the datatable
         """
@@ -87,7 +87,7 @@ class AddTicket(forms.ModelForm):
 
         return ticket_title
 
-    def save(self, commit: bool=True, **kwargs):
+    def save(self, commit: bool = True, **kwargs):
         """
         Commit the entry to the Ticket datatable
 
@@ -95,11 +95,11 @@ class AddTicket(forms.ModelForm):
             commit (bool): If the entry should be committed to the datatable
 
         Returns:
-            ticket(AddTicket): The ticket object that is being committed  
+            ticket(AddTicket): The ticket object that is being committed
         """
         ticket = super(AddTicket, self).save(commit=False)
         ticket.date_reported = datetime.date.today()
-        request = kwargs.pop('request', None)
+        request = kwargs.pop("request", None)
         if request:
             ticket.reporter_id = request.user.id
         else:
@@ -138,18 +138,18 @@ class AddStatus(forms.ModelForm):
 
         return status_name
 
-    def save(self, commit: bool=True, **kwargs):
+    def save(self, commit: bool = True, **kwargs):
         """
         Commit the entry to the AddStatus datatable
 
         Parameters:
             commit (bool): Is the entry being committed
-        
+
         Returns:
             status (AddStatus): The object of the entry being commited to the datatable
         """
         status = super(AddStatus, self).save(commit=False)
-        request = kwargs.pop('request', None)
+        request = kwargs.pop("request", None)
         if request:
             status.reporter_id = request.user.id
         else:
@@ -188,25 +188,25 @@ class AddTicketType(forms.ModelForm):
 
         return type_name
 
-    def save(self, commit: bool=True, **kwargs):
+    def save(self, commit: bool = True, **kwargs):
         """
         Commit the entry object to the TicketTyoe datatable
 
         Parameters:
             commit (bool): Is the object being committed to the datatable
-        
+
         Returns:
-            ticket_type (AddTicketType): The object of the entry being committed. 
+            ticket_type (AddTicketType): The object of the entry being committed.
         """
         ticket_type = super(AddTicketType, self).save(commit=False)
 
-        request = kwargs.pop('request', None)
+        request = kwargs.pop("request", None)
         if request:
             ticket_type.reporter_id = request.user.id
         else:
             # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
             # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
-            ticket_type.reporter_id = 0      
+            ticket_type.reporter_id = 0
         if commit:
             ticket_type.save()
         return ticket_type
@@ -215,10 +215,10 @@ class AddTicketType(forms.ModelForm):
 def check_capital_letter(text: str) -> bool:
     """
     Checks a string to ensure it starts with a capital letter
-    
+
     Parameters:
         text (str): The string to be examined
-    
+
     Returns:
         (bool): Boolean value to denote if the regex returned a match
     """

@@ -14,14 +14,18 @@ def HomePage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the Django template
     """
     if request.user.is_authenticated:
         tickets = Ticket.objects.filter(assignee=request.user.id)
 
-        return render(request, "myapp/home.html", context={"tickets": tickets if tickets else None})
+        return render(
+            request,
+            "myapp/home.html",
+            context={"tickets": tickets if tickets else None},
+        )
     return render(request, "myapp/home.html")
 
 
@@ -31,7 +35,7 @@ def RegisterPage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -61,7 +65,7 @@ def LoginPage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -94,7 +98,7 @@ def LogoutPage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -110,7 +114,7 @@ def CreateTicketPage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -133,7 +137,7 @@ def CreateStatusPage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -156,7 +160,7 @@ def CreateTicketTypePage(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -173,12 +177,18 @@ def CreateTicketTypePage(request):
         context={"form": form, "title": "Create Ticket Type"},
     )
 
+
 def can_user_update_ticket(request, object: Ticket) -> bool:
     try:
-        return request.user.id == object.reporter_id or request.user.is_superuser  or request.user.id == object.assignee.id
+        return (
+            request.user.id == object.reporter_id
+            or request.user.is_superuser
+            or request.user.id == object.assignee.id
+        )
     except:
         # If the above fails, the application assumes that the user cannot edit this ticket. This is a failsafe to prevent unauthorised updating on an entry
         return False
+
 
 @login_required(login_url="/login")
 def ViewTickets(request):
@@ -187,12 +197,12 @@ def ViewTickets(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
     items = []
-    
+
     for ticket in Ticket.objects.all():
         try:
             reporter = User.objects.get(id=ticket.reporter_id).username
@@ -213,16 +223,22 @@ def ViewTicket(request, id: int):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
     ticket = Ticket.objects.get(ticket_id=id)
-    
-    return render(request, "myapp/display_ticket.html", {"ticket": ticket, "can_update": can_user_update_ticket(request, ticket)})
+
+    return render(
+        request,
+        "myapp/display_ticket.html",
+        {"ticket": ticket, "can_update": can_user_update_ticket(request, ticket)},
+    )
+
 
 def can_user_update(request, object):
     return request.user.id == object.reporter_id or request.user.is_superuser
+
 
 @login_required(login_url="/login")
 def ViewStatuses(request):
@@ -231,12 +247,12 @@ def ViewStatuses(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
     items = []
-    
+
     for status in Status.objects.all():
         try:
             reporter = User.objects.get(id=status.reporter_id).username
@@ -256,7 +272,7 @@ def ViewStatus(request, status_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -265,7 +281,11 @@ def ViewStatus(request, status_name):
     except:
         pass
     status = Status.objects.get(status_name=status_name)
-    return render(request, "myapp/display_status.html", {"status": status, "can_update": can_user_update(request, status)})
+    return render(
+        request,
+        "myapp/display_status.html",
+        {"status": status, "can_update": can_user_update(request, status)},
+    )
 
 
 @login_required(login_url="/login")
@@ -275,23 +295,25 @@ def ViewTypes(request):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
     # types = TicketType.objects.all()
     # return render(request, "myapp/display_types.html", {"types": types})
     items = []
-    
+
     for ticket_type in TicketType.objects.all():
         try:
             reporter = User.objects.get(id=ticket_type.reporter_id).username
         except:
             reporter = "None"
-        
+
         can_update = can_user_update(request, ticket_type)
 
-        items.append({"ticket_type": ticket_type, "reporter": reporter, "can_update": can_update})
+        items.append(
+            {"ticket_type": ticket_type, "reporter": reporter, "can_update": can_update}
+        )
 
     return render(request, "myapp/display_types.html", {"items": items})
 
@@ -303,7 +325,7 @@ def ViewType(request, type_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -312,7 +334,12 @@ def ViewType(request, type_name):
     except:
         pass
     type = TicketType.objects.get(type_name=type_name)
-    return render(request, "myapp/display_type.html", {"type": type, "can_update": can_user_update(request, type)})
+    return render(
+        request,
+        "myapp/display_type.html",
+        {"type": type, "can_update": can_user_update(request, type)},
+    )
+
 
 @login_required(login_url="/login")
 def UpdateTicket(request, id):
@@ -321,7 +348,7 @@ def UpdateTicket(request, id):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -334,9 +361,14 @@ def UpdateTicket(request, id):
             form.save(request=request)
             messages.success(request, message=f"Ticket {id} Updated")
             return redirect("View Tickets")
-        return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket"})
+        return render(
+            request, "myapp/form.html", {"form": form, "title": "Update Ticket"}
+        )
     else:
-        messages.error(request, message="You are not an admin user, the assigned user or the user who created this ticket. You cannot update this ticket.")
+        messages.error(
+            request,
+            message="You are not an admin user, the assigned user or the user who created this ticket. You cannot update this ticket.",
+        )
         return redirect("View Tickets")
 
 
@@ -347,7 +379,7 @@ def UpdateStatus(request, status_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -364,9 +396,14 @@ def UpdateStatus(request, status_name):
             form.save(request=request)
             messages.success(request, message=f"Status {status_name} Updated")
             return redirect("View Statuses")
-        return render(request, "myapp/form.html", {"form": form, "title": "Update Status"})
+        return render(
+            request, "myapp/form.html", {"form": form, "title": "Update Status"}
+        )
     else:
-        messages.error(request, message="You are not an admin user the user who created this status. You cannot update this status.")
+        messages.error(
+            request,
+            message="You are not an admin user the user who created this status. You cannot update this status.",
+        )
         return redirect("View Statuses")
 
 
@@ -377,7 +414,7 @@ def UpdateTicketType(request, type_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -394,9 +431,14 @@ def UpdateTicketType(request, type_name):
             form.save(request=request)
             messages.success(request, message=f"Ticket Type {type_name} Updated")
             return redirect("View Types")
-        return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket Type"})
+        return render(
+            request, "myapp/form.html", {"form": form, "title": "Update Ticket Type"}
+        )
     else:
-        messages.error(request, message="You are not an admin user the user who created this ticket type. You cannot update this type.")
+        messages.error(
+            request,
+            message="You are not an admin user the user who created this ticket type. You cannot update this type.",
+        )
         return redirect("View Types")
 
 
@@ -407,7 +449,7 @@ def DeleteTicket(request, id):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -434,7 +476,7 @@ def DeleteStatus(request, status_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
@@ -461,7 +503,7 @@ def DeleteTicketType(request, type_name):
 
     Parameters:
         request: The webpage request
-    
+
     Returns:
         : Render of the webpage using the django template
     """
