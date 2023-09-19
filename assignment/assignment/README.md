@@ -5,7 +5,9 @@
 This Django project contains a website for managing tickets in an IT company. The website is designed to be versatile to the users need's, whsers can create their own ticket types and statuses for the tickets, along with the tickets themselves.
 
 ## Accessing the webpage
-The webpage is available online, for review, [here][online-webpage]. This can also be run locally by cloning this repository and running the Django server in your terminal.
+The webpage is available online, for review, [here][online-webpage]. This can also be run locally by cloning this repository and running the Django server in your terminal. The following has been tested on MacOS Ventura 13.4 with Python 3.10.1. The below is for Bash or Zsh terminals, for Windows please use the eqivilent in Powershell or Terminal.
+
+A Python Virtual Environment will be required, please see the [python3 venv Documentation][venv-docs] for more information.
 
 ### Running locally
 1. Clone the git repository
@@ -14,7 +16,7 @@ git clone https://github.com/Stylie777/SoftwareEngineeringL5.git
 ```
 2. Navigate to the assignment folder
 ```sh
-cd assignment/assignment
+cd SoftwareEngineeringL5/assignment/assignment
 ```
 3. Install the required packages using pip
 ```sh
@@ -93,3 +95,4 @@ python3 manage.py test
 This should be run everytime a change is made to ensure continued validation of the webpage and ensure there are no errors. 
 
 [online-webpage]: http://stylie777.pythonanywhere.com
+[venv-docs]: https://docs.python.org/3/library/venv.html
