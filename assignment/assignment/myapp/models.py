@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Status(models.Model):
     status_name = models.CharField(max_length=20, primary_key=True, null=False)
     status_description = models.CharField(max_length=100, blank=True, null=True)
+    reporter_id = models.PositiveIntegerField(null=False, default=0)
 
     def __str__(self) -> str:
         """
@@ -18,6 +19,7 @@ class Status(models.Model):
 class TicketType(models.Model):
     type_name = models.CharField(max_length=20, null=False, primary_key=True)
     type_description = models.CharField(max_length=100, blank=True, null=True)
+    reporter_id = models.PositiveIntegerField(null=False, default=0)
 
     def __str__(self):
         """
@@ -37,3 +39,4 @@ class Ticket(models.Model):
     type = models.ForeignKey(TicketType, on_delete=models.CASCADE, null=True)
     date_reported = models.DateField(null=False)
     date_due = models.DateField(blank=True, null=True)
+    reporter_id = models.PositiveIntegerField(null=False, default=0)
