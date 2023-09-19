@@ -46,6 +46,10 @@ The database entries can be viewed using the `View <database-name>` option under
 ### Updating
 Ticket types can be updated using the link for that type from the View Ticket Type table. From here the form will be loaded where the user can change the details of the ticket type. This will be revalidated using the same validation used when creating the type before commiting the changes to the database.
 
+**Updating tickets is limited to admin users, the user who created the ticket and the user who is assigned the ticket. Anyone else can view, but not update.**
+
+**Updating Statuses or Ticket Types is limited to admin users and the user who created the Status/Ticket Type.**
+
 ### Deleting
 Only admin users can delete database entries. This can be done from the table to view all the tickets that are open, or from the page used to view the details of an entry. The user will be aske to confirm they wish to delete that entry before the deletion takes place. Once this takes place it is an irreversable operation.
 
