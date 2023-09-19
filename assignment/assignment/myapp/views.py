@@ -279,8 +279,21 @@ def ViewTypes(request):
     Returns:
         : Render of the webpage using the django template
     """
-    types = TicketType.objects.all()
-    return render(request, "myapp/display_types.html", {"types": types})
+    # types = TicketType.objects.all()
+    # return render(request, "myapp/display_types.html", {"types": types})
+    items = []
+    
+    for ticket_type in TicketType.objects.all():
+        try:
+            reporter = User.objects.get(id=ticket_type.reporter_id).username
+        except:
+            reporter = "None"
+        
+        can_update = can_user_update(request, ticket_type)
+
+        items.append({"ticket_type": ticket_type, "reporter": reporter, "can_update": can_update})
+
+    return render(request, "myapp/display_types.html", {"items": items})
 
 
 @login_required(login_url="/login")
@@ -299,8 +312,7 @@ def ViewType(request, type_name):
     except:
         pass
     type = TicketType.objects.get(type_name=type_name)
-    return render(request, "myapp/display_type.html", {"type": type})
-
+    return render(request, "myapp/display_type.html", {"type": type, "can_update": can_user_update(request, type)})
 
 @login_required(login_url="/login")
 def UpdateTicket(request, id):
@@ -373,16 +385,19 @@ def UpdateTicketType(request, type_name):
         type_name.replace("%20", " ")
     except:
         pass
-    instance = TicketType.objects.get(type_name=type_name)
-    form = AddTicketType(request.POST or None, instance=instance)
+    type = TicketType.objects.get(type_name=type_name)
 
-    if form.is_valid():
-        form.save()
-        messages.success(request, message=f"Ticket Type, {type_name}, Updated")
+    if can_user_update(request, type):
+        form = AddTicketType(request.POST or None, instance=type)
+
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request, message=f"Ticket Type {type_name} Updated")
+            return redirect("View Types")
+        return render(request, "myapp/form.html", {"form": form, "title": "Update Ticket Type"})
+    else:
+        messages.error(request, message="You are not an admin user the user who created this ticket type. You cannot update this type.")
         return redirect("View Types")
-    return render(
-        request, "myapp/form.html", {"form": form, "title": "Update Ticket Type"}
-    )
 
 
 @user_passes_test(lambda user: user.is_superuser)

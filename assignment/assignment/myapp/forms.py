@@ -188,7 +188,7 @@ class AddTicketType(forms.ModelForm):
 
         return type_name
 
-    def save(self, commit: bool=True):
+    def save(self, commit: bool=True, **kwargs):
         """
         Commit the entry object to the TicketTyoe datatable
 
@@ -200,6 +200,13 @@ class AddTicketType(forms.ModelForm):
         """
         ticket_type = super(AddTicketType, self).save(commit=False)
 
+        request = kwargs.pop('request', None)
+        if request:
+            ticket_type.reporter_id = request.user.id
+        else:
+            # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
+            # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
+            ticket_type.reporter_id = 0      
         if commit:
             ticket_type.save()
         return ticket_type
