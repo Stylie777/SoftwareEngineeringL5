@@ -20,8 +20,6 @@ def HomePage(request):
         : Render of the webpage using the Django template
     """
     
-    markdown.markdownFromFile(input=r"README.md", output=r"myapp/templates/myapp/readme.html")
-    
     if request.user.is_authenticated:
         tickets = Ticket.objects.filter(assignee=request.user.id)
 
@@ -32,6 +30,11 @@ def HomePage(request):
         )
     return render(request, "myapp/home.html")
 
+def ReadmePage(request):
+
+    markdown.markdownFromFile(input=r"README.md", output=r"myapp/templates/myapp/readme_contents.html")
+
+    return render(request, "myapp/readme.html")
 
 def RegisterPage(request):
     """

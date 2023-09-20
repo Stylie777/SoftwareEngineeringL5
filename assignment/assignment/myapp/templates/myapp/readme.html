@@ -1,1 +1,7 @@
-{% comment %} This is intentionally blank, markdown within Pythonw will generate the HTML based off README.md {% endcomment %}
+{% extends "myapp/base.html" %}
+{% block title %}
+<h1>Readme</h1>
+{% endblock %}
+{% block content %}
+{% include "myapp/readme_contents.html" %}
+{% endblock %}
