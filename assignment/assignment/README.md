@@ -86,7 +86,7 @@ Unit tests have been written for models, views and forms used within the project
 
 The tests look at the models defined within `models.py`. Django's User Authentication models are not tested, as this is not models or logic that has been added as part of this project  
 
-To run these, use this command in the terminal in the same directory as used above.
+To run these, use this command in the terminal in the same directory used to run the local Django server.
 
 ```
 python3 manage.py test
