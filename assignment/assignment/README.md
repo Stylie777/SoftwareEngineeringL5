@@ -7,27 +7,27 @@ This Django project contains a website for managing tickets in an IT company. Th
 ## Accessing the webpage
 The webpage is available online, for review, [here][online-webpage]. This can also be run locally by cloning this repository and running the Django server in your terminal. The following has been tested on MacOS Ventura 13.4 with Python 3.10.1. The below is for Bash or Zsh terminals, for Windows please use the eqivilent in Powershell or Terminal.
 
-A Python Virtual Environment will be required, please see the [python3 venv Documentation][venv-docs] for more information.
+**IMPORTANT:** A Python Virtual Environment will be required, please see the [python3 venv Documentation][venv-docs] for more information.
 
 ### Running locally
-1. Clone the git repository
-```sh
+1. Clone the git repository:
+```
 git clone https://github.com/Stylie777/SoftwareEngineeringL5.git
 ```
-2. Navigate to the assignment folder
-```sh
+2. Navigate to the assignment folder:
+```
 cd SoftwareEngineeringL5/assignment/assignment
 ```
-3. Install the required packages using pip
-```sh
+3. Install the required packages using pip:
+```
 pip install -r requirements.txt
 ```
 or
-```sh
+```
 python3 -m pip install -r requirements.txt
 ```
-4. Run the django server from the terminal. This should be done from the directory containing `manage.py`
-```sh
+4. Run the django server from the terminal. This should be done from the directory containing `manage.py`:
+```
 python3 manage.py runserver
 ```
 
@@ -40,7 +40,7 @@ The database can be manipulated with the four CRUD operations. The process for e
 ### Creation
 Entries can be created within the website by any user. The link to do so is available under the sections respective Management tab. Three are available, `Ticket`, `Status` and `Ticket Type`.
 
-The page to create an entry will use a form to collect the data, with some having required fieldd. Required fields are documented [here][ADD LINK TO REQUIRED FIELDS]
+The page to create an entry will use a form to collect the data, with some having required fieldd. Required fields are documented within the [Database Fields](##database-fields) section
 
 ### Viewing
 The database entries can be viewed using the `View <database-name>` option under the `<database-name> Management` tab from the Navbar. From here the user can view the details of specific entries, update the entry and, for admin users, delete entries.
@@ -88,7 +88,7 @@ The tests look at the models defined within `models.py`. Django's User Authentic
 
 To run these, use this command in the terminal in the same directory as used above.
 
-```sh
+```
 python3 manage.py test
 ```
 
