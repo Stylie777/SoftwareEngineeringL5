@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Ticket, Status, TicketType
 from django.contrib.auth.models import User
+import markdown
 
 
 def HomePage(request):
@@ -18,6 +19,9 @@ def HomePage(request):
     Returns:
         : Render of the webpage using the Django template
     """
+    
+    markdown.markdownFromFile(input=r"README.md", output=r"myapp/templates/myapp/readme.html")
+    
     if request.user.is_authenticated:
         tickets = Ticket.objects.filter(assignee=request.user.id)
 
