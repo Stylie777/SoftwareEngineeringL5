@@ -5,7 +5,7 @@
 This Django project contains a website for managing tickets in an IT company. The website is designed to be versatile to the users need's, whsers can create their own ticket types and statuses for the tickets, along with the tickets themselves.
 
 ## Accessing the webpage
-The webpage is available online, for review, [here][online-webpage]. This can also be run locally by cloning this repository and running the Django server in your terminal. The following has been tested on MacOS Ventura 13.4 with Python 3.10.1. The below is for Bash or Zsh terminals, for Windows please use the eqivilent in Powershell or Terminal.
+The webpage is available online, for review, [here][online-webpage]. This can also be run locally by cloning this repository and running the Django server in your terminal. The appliction has been tested on MacOS Ventura 13.4 with Python 3.10.1. and is hosted using Pythonanywhere's server infrastructure based on Linux. The below is for Bash or Zsh terminals, for Windows please use the eqivilent in Powershell or Terminal.
 
 **IMPORTANT:** A Python Virtual Environment will be required, please see the [python3 venv Documentation][venv-docs] for more information.
 
