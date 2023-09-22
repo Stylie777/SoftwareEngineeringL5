@@ -9,6 +9,13 @@ Tutor:    Suraksha Neupane
 Date:     22/09/23
 """
 
+"""
+References:
+The markdown python library is used in this module to convert the README.md to HTML for display on the webpage.
+
+Markdown (2023) Python-Markdown 3.4.4 Documentation. Available at: https://python-markdown.github.io (Accessed: 22 September 2023)
+"""
+
 from django.shortcuts import render, redirect
 from .forms import NewUser, AddTicket, AddStatus, AddTicketType
 from django.contrib.auth import login, authenticate, logout
@@ -43,7 +50,9 @@ def HomePage(request):
 
 def ReadmePage(request):
 
+    # Markdown (2023) - START
     markdown.markdownFromFile(input=r"README.md", output=r"myapp/templates/myapp/readme_contents.html")
+    # Markdown (2023) - END
 
     return render(request, "myapp/readme.html")
 
