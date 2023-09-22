@@ -174,6 +174,55 @@ class AddStatus(forms.ModelForm):
             status.save()
         return status
 
+class UpdateStatus(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = ("status_description",)
+
+        widgets = {
+            "status_description": forms.Textarea(attrs={"class": "form-control"}),
+        }
+
+    def clean_status_name(self) -> str:
+        """
+        Apply validation to the Status Name that is entered by the user
+
+        Returns:
+            status_name (str): The validated Status Name that is to be committed
+        """
+        status_name = self.cleaned_data["status_name"]
+
+        if not check_capital_letter(status_name):
+            raise ValidationError(
+                "Please enter the ticket title with the first letter as a Capital"
+            )
+
+        return status_name
+
+    def save(self, commit: bool = True, **kwargs):
+        """
+        Commit the entry to the AddStatus datatable
+
+        Parameters:
+            commit (bool), default=true: Is the entry being committed
+            **kwargs: Any extra arguments required. For this function, the webpage function is required
+
+        Returns:
+            status (AddStatus): The object of the entry being commited to the datatable
+        """
+        status = super(UpdateStatus, self).save(commit=False)
+        request = kwargs.pop("request", None)
+        if request:
+            status.reporter_id = request.user.id
+        else:
+            # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
+            # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
+            status.reporter_id = 0
+
+        if commit:
+            status.save()
+        return status
+
 
 class AddTicketType(forms.ModelForm):
     class Meta:

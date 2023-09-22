@@ -18,6 +18,7 @@ Markdown (2023) Python-Markdown 3.4.4 Documentation. Available at: https://pytho
 
 from django.shortcuts import render, redirect
 from .forms import NewUser, AddTicket, AddStatus, AddTicketType
+from .forms import NewUser, AddTicket, AddStatus, AddTicketType, UpdateStatus
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -436,7 +437,7 @@ def UpdateTicket(request, id):
 
 
 @login_required(login_url="/login")
-def UpdateStatus(request, status_name):
+def UpdateStatusPage(request, status_name):
     """
     Renders the update status page
 
@@ -453,7 +454,7 @@ def UpdateStatus(request, status_name):
     status = Status.objects.get(status_name=status_name)
 
     if can_user_update(request, status):
-        form = AddStatus(request.POST or None, instance=status)
+        form = UpdateStatus(request.POST or None, instance=status)
 
         if form.is_valid():
             form.save(request=request)
