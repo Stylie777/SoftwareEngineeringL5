@@ -37,23 +37,28 @@ import datetime
 
 class TestStatusModel(TestCase):
     def create_status_object(
-        self, status_name: str="Test Status", status_description: int="This is a test status", reporter_id: int=1
+        self,
+        status_name: str = "Test Status",
+        status_description: int = "This is a test status",
+        reporter_id: int = 1,
     ) -> Status:
         """
         Creates a status database entry object for use in the test cases
 
         Tests can be written using the default values or values you have specified
-        
+
         Parameters:
             status_name (str), default="Test Status": The name of the status
             status_descriptions (str), default="This is a test status": The description of the status
             reporter_id (int), default=1: The ID of the User that created the status
-        
+
         returns:
             (Status): The object that would be a Database entry
         """
         return Status.objects.create(
-            status_name=status_name, status_description=status_description, reporter_id=reporter_id
+            status_name=status_name,
+            status_description=status_description,
+            reporter_id=reporter_id,
         )
 
     def test_string_creation_for_forms(self):
@@ -67,9 +72,9 @@ class TestStatusModel(TestCase):
 
         The following values are used:
             username - "Test Account"
-            
+
             email - test@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -81,10 +86,10 @@ class TestStatusModel(TestCase):
     def get_response_code(self, url: str) -> int:
         """
         Gets the response code for a page on the application
-        
+
         Parameters:
             url (str): The URL of the page to load
-        
+
         Returns:
             (int): The response code for the URL
         """
@@ -118,13 +123,13 @@ class TestStatusModel(TestCase):
 
     def create_super_user(self):
         """
-        Create an admin user for use in the test cases. 
-        
+        Create an admin user for use in the test cases.
+
         The following values are used:
             username - "Test Account Admin"
-            
+
             email - testadmin@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -151,7 +156,7 @@ class TestStatusModel(TestCase):
         Parameters:
             status_name (str): Name of the status
             status_description (str): Description of the status
-        
+
             Returns:
                 (AddStatus): The form for the Status object
         """
@@ -177,25 +182,27 @@ class TestStatusModel(TestCase):
 class TestTicketTypeModel(TestCase):
     def create_ticket_type_object(
         self,
-        type_name: str="Test Ticket Type",
-        type_description: str="This is a test description",
-        reporter_id: int=1
+        type_name: str = "Test Ticket Type",
+        type_description: str = "This is a test description",
+        reporter_id: int = 1,
     ) -> TicketType:
         """
         Creates a Ticket Type database entry object for use in the test cases
 
         Tests can be written using the default values or values you have specified
-        
+
         Parameters:
             type_name (str), default="Test Ticket Type": The name of the Ticket Type
             type_description (str), default="This is a test description": The description of the Ticket Type
             reporter_id (int), default=1: The ID of the User that created the Ticket Type
-        
+
         returns:
             (TicketType): The object that would be a Database entry
         """
         return TicketType.objects.create(
-            type_name=type_name, type_description=type_description, reporter_id=reporter_id
+            type_name=type_name,
+            type_description=type_description,
+            reporter_id=reporter_id,
         )
 
     def test_string_creation(self):
@@ -209,9 +216,9 @@ class TestTicketTypeModel(TestCase):
 
         The following values are used:
             username - "Test Account"
-            
+
             email - test@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -223,10 +230,10 @@ class TestTicketTypeModel(TestCase):
     def get_response_code(self, url: str) -> int:
         """
         Gets the response code for a page on the application
-        
+
         Parameters:
             url (str): The URL of the page to load
-        
+
         Returns:
             (int): The response code for the URL
         """
@@ -260,13 +267,13 @@ class TestTicketTypeModel(TestCase):
 
     def create_super_user(self):
         """
-        Create an admin user for use in the test cases. 
-        
+        Create an admin user for use in the test cases.
+
         The following values are used:
             username - "Test Account Admin"
-            
+
             email - testadmin@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -293,7 +300,7 @@ class TestTicketTypeModel(TestCase):
         Parameters:
             type_name (str): Name of the Ticket Type
             type_description (str): Description of the Ticket Type
-        
+
             Returns:
                 (AddTicketType): The form for the TicketType object
         """
@@ -320,15 +327,15 @@ class TestTicketModel(TestCase):
     status_model = TestStatusModel()
     type_model = TestTicketTypeModel()
 
-    def create_ticket_object(self, ticket_title: str="Test Ticket Title") -> Ticket:
+    def create_ticket_object(self, ticket_title: str = "Test Ticket Title") -> Ticket:
         """
         Creates a ticket database entry object for use in the test cases
 
         Tests can be written using the default values or values you have specified
-        
+
         Parameters:
             ticket_title (str), default="Test Ticket Title": The name of the Ticket
-        
+
         returns:
             (Ticket): The object that would be a Database entry
         """
@@ -348,9 +355,9 @@ class TestTicketModel(TestCase):
 
         The following values are used:
             username - "Test Account"
-            
+
             email - test@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -362,10 +369,10 @@ class TestTicketModel(TestCase):
     def get_response_code(self, url: str) -> int:
         """
         Gets the response code for a page on the application
-        
+
         Parameters:
             url (str): The URL of the page to load
-        
+
         Returns:
             (int): The response code for the URL
         """
@@ -401,13 +408,13 @@ class TestTicketModel(TestCase):
 
     def create_super_user(self):
         """
-        Create an admin user for use in the test cases. 
-        
+        Create an admin user for use in the test cases.
+
         The following values are used:
             username - "Test Account Admin"
-            
+
             email - testadmin@test.com
-            
+
             password - TestPassword
 
         Use these credentials where Admin users are required after calling this function
@@ -432,7 +439,7 @@ class TestTicketModel(TestCase):
 
         Parameters:
             ticket_title (str): Name of the Ticket
-        
+
             Returns:
                 (AddTicket): The form for the Status object
         """

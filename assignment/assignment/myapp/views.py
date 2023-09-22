@@ -37,7 +37,7 @@ def HomePage(request):
     Returns:
         : Render of the webpage using the Django template
     """
-    
+
     if request.user.is_authenticated:
         tickets = Ticket.objects.filter(assignee=request.user.id)
 
@@ -48,24 +48,28 @@ def HomePage(request):
         )
     return render(request, "myapp/home.html")
 
+
 def ReadmePage(request):
     """
     Renders the Readme page. Uses `markdown` to take the README.md of the application and generate
     a HTML page.
-    
+
     Parameters:
         request: The webpage request
-        
+
     Returns
         : Render of the webpage using the django template
-    
+
     """
 
     # Markdown (2023) - START
-    markdown.markdownFromFile(input=r"README.md", output=r"myapp/templates/myapp/readme_contents.html")
+    markdown.markdownFromFile(
+        input=r"README.md", output=r"myapp/templates/myapp/readme_contents.html"
+    )
     # Markdown (2023) - END
 
     return render(request, "myapp/readme.html")
+
 
 def RegisterPage(request):
     """
@@ -219,11 +223,11 @@ def CreateTicketTypePage(request):
 def can_user_update_ticket(request, ticket: Ticket) -> bool:
     """
     Performs check to see if a user can update a ticket
-    
+
     Parameters:
         request: The webpage request, used to extract the current users information
         ticket (Ticket): The ticket that the user is wishing to update
-    
+
     Returns:
         (bool): Denotes if the user can update the ticket
     """
@@ -287,14 +291,14 @@ def ViewTicket(request, id: int):
 def can_user_update(request, object) -> bool:
     """
     Checks if user can update a TicketType or Status entry. This has a different test to Ticket as these do not have the possibility to assign a user
-    
-    Parameters: 
+
+    Parameters:
         request: The webpage request
         object: The Status or TicketType entry that the user is within to update
-    
+
     Returns:
         (bool): Can the user update this entry
-    
+
     """
     return request.user.id == object.reporter_id or request.user.is_superuser
 
