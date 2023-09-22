@@ -1,3 +1,14 @@
+"""
+Program:  Web Based Database Application
+Filename: views.py            
+@author:  © Jack Styles             
+Course:   BSc Digital Technology Solutions                     
+Module:   Software Engineering and Agile             
+Tutor:    Suraksha Neupane                         
+@version: 1.0     
+Date:     22/09/23
+"""
+
 from django.shortcuts import render, redirect
 from .forms import NewUser, AddTicket, AddStatus, AddTicketType
 from django.contrib.auth import login, authenticate, logout

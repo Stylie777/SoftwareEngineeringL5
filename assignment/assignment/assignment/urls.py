@@ -1,4 +1,15 @@
 """
+Program:  Web Based Database Application
+Filename: urls.py            
+@author:  © Jack Styles             
+Course:   BSc Digital Technology Solutions                     
+Module:   Software Engineering and Agile             
+Tutor:    Suraksha Neupane                         
+@version: 1.0     
+Date:     22/09/23
+"""
+
+"""
 URL configuration for assignment project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
