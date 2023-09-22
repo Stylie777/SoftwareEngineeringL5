@@ -17,8 +17,7 @@ Markdown (2023) Python-Markdown 3.4.4 Documentation. Available at: https://pytho
 """
 
 from django.shortcuts import render, redirect
-from .forms import NewUser, AddTicket, AddStatus, AddTicketType
-from .forms import NewUser, AddTicket, AddStatus, AddTicketType, UpdateStatus
+from .forms import NewUser, AddTicket, AddStatus, AddTicketType, UpdateStatus, UpdateTicketType
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -472,7 +471,7 @@ def UpdateStatusPage(request, status_name):
 
 
 @login_required(login_url="/login")
-def UpdateTicketType(request, type_name):
+def UpdateTicketTypePage(request, type_name):
     """
     Renders the update ticket type page
 
@@ -489,7 +488,7 @@ def UpdateTicketType(request, type_name):
     type = TicketType.objects.get(type_name=type_name)
 
     if can_user_update(request, type):
-        form = AddTicketType(request.POST or None, instance=type)
+        form = UpdateTicketType(request.POST or None, instance=type)
 
         if form.is_valid():
             form.save(request=request)

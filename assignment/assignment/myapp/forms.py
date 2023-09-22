@@ -273,6 +273,55 @@ class AddTicketType(forms.ModelForm):
         if commit:
             ticket_type.save()
         return ticket_type
+    
+class UpdateTicketType(forms.ModelForm):
+    class Meta:
+        model = TicketType
+        fields = {"type_description"}
+
+        widgets = {
+            "type_description": forms.Textarea(attrs={"class": "form-control"}),
+        }
+
+    def clean_type_name(self) -> str:
+        """
+        Validate the type name entered by the user
+
+        Returns:
+            type_name (str): The validated type name
+        """
+        type_name = self.cleaned_data["type_name"]
+
+        if not check_capital_letter(type_name):
+            raise ValidationError(
+                "Please enter the type name with the first letter as a Capital"
+            )
+
+        return type_name
+
+    def save(self, commit: bool = True, **kwargs):
+        """
+        Commit the entry object to the TicketTyoe datatable
+
+        Parameters:
+            commit (bool): Is the object being committed to the datatable
+
+        Returns:
+            ticket_type (AddTicketType): The object of the entry being committed.
+            **kwargs: Any extra arguments required. For this function, the webpage function is required
+        """
+        ticket_type = super(UpdateTicketType, self).save(commit=False)
+
+        request = kwargs.pop("request", None)
+        if request:
+            ticket_type.reporter_id = request.user.id
+        else:
+            # Due to the user being logged in, this should never be reached. This is however a failsafe incase this happens.
+            # If this is reached, the ticket will be unusable for the reporter, only an admin or assignee can edit this.
+            ticket_type.reporter_id = 0
+        if commit:
+            ticket_type.save()
+        return ticket_type
 
 
 def check_capital_letter(text: str) -> bool:
