@@ -46,7 +46,7 @@ class NewUser(UserCreationForm):
         Saves the object to the datatable
 
         Parameters:
-            commit (bool): Is the object being commited to the datatable
+            commit (bool), default=True: Is the object being commited to the datatable
 
         Returns:
             user (NewUser): A User object, the object that has been entered into the datatable
@@ -103,7 +103,8 @@ class AddTicket(forms.ModelForm):
         Commit the entry to the Ticket datatable
 
         Parameters:
-            commit (bool): If the entry should be committed to the datatable
+            commit (bool), default=True: If the entry should be committed to the datatable
+            **kwargs: Any extra arguments required. For this function, the webpage function is required
 
         Returns:
             ticket(AddTicket): The ticket object that is being committed
@@ -154,7 +155,8 @@ class AddStatus(forms.ModelForm):
         Commit the entry to the AddStatus datatable
 
         Parameters:
-            commit (bool): Is the entry being committed
+            commit (bool), default=true: Is the entry being committed
+            **kwargs: Any extra arguments required. For this function, the webpage function is required
 
         Returns:
             status (AddStatus): The object of the entry being commited to the datatable
@@ -208,6 +210,7 @@ class AddTicketType(forms.ModelForm):
 
         Returns:
             ticket_type (AddTicketType): The object of the entry being committed.
+            **kwargs: Any extra arguments required. For this function, the webpage function is required
         """
         ticket_type = super(AddTicketType, self).save(commit=False)
 
