@@ -186,7 +186,7 @@ def CreateStatusPage(request):
     form = AddStatus(request.POST)
 
     if form.is_valid():
-        form.save()
+        form.save(request=request)
         messages.success(request, "Status Type Created")
         return redirect("Home")
 
@@ -209,7 +209,7 @@ def CreateTicketTypePage(request):
     form = AddTicketType(request.POST)
 
     if form.is_valid():
-        form.save()
+        form.save(request=request)
         messages.success(request, "Ticket Type Created")
         return redirect("Home")
 
