@@ -20,6 +20,11 @@ The webpage is available online, for review, [here][online-webpage]. This can al
 
 **IMPORTANT:** A Python Virtual Environment will be required, please see the [python3 venv Documentation][venv-docs] for more information.
 
+### Users
+You can create your own user by using the [register][register-page] page. This gives you a user where you can create and view Tickets, Statuses and Ticket Types, along with updating the entries that you create. You can also update the Tickets that are assigned to you. Registration is simple, with the webpage explaining the information that is required and ensuring that the data you enter is valid.
+
+Please contact the system administrator if you require an admin account, with justification to do so.
+
 ### Running locally
 1. Clone the git repository:
 ```
@@ -107,3 +112,4 @@ This should be run everytime a change is made to ensure continued validation of 
 
 [online-webpage]: http://stylie777.pythonanywhere.com
 [venv-docs]: https://docs.python.org/3/library/venv.html
+[register-page]: https://stylie777.pythonanywhere.com/register/
